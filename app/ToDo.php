@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class ToDo extends Model
 {
     //
+    protected $fillable = ['title','due','body'];
 }

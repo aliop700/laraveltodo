@@ -7,4 +7,10 @@
     <p>
     {{$todo->body}}
     </p>
+    <a href="/todos/{{$todo->id}}/edit" class="btn btn-default">Edit</a>
+    <form action="/todos/{{$todo->id}}" method="post" class="pull-right">
+        {{method_field('delete')}}
+        {{csrf_field()}}
+        <input type="submit" value="delete" class="btn btn-danger">
+    </form>
 @endsection

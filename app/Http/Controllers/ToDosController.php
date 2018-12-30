@@ -26,6 +26,7 @@ class ToDosController extends Controller
     public function create()
     {
         //
+       return view('todos.create'); 
     }
 
     /**
@@ -37,6 +38,19 @@ class ToDosController extends Controller
     public function store(Request $request)
     {
         //
+        $this->validate($request,[
+            'title' => 'required'
+        ]);
+
+        $todo = new ToDo;
+        ToDo::Create([
+            'body' => request('body'),
+            'title' => request('title'),
+            'due' => request('due')
+        ]);
+
+        return redirect('/')->with('success','ToDo inserted');
+
     }
 
     /**
@@ -57,9 +71,10 @@ class ToDosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(ToDo $todo)
     {
         //
+        return view('todos.edit')->with(compact('todo'));
     }
 
     /**
@@ -69,9 +84,17 @@ class ToDosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ToDo $todo)
     {
         //
+        
+        $todo->fill([
+            'due' => request('due'),
+            'body' => request('body'),
+            'title' => request('title')
+        ]);
+        $todo->save();
+         return redirect('/')->with('success','Updated');
     }
 
     /**
@@ -80,8 +103,11 @@ class ToDosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Todo $todo)
     {
         //
+        $todo->delete();
+        return redirect('/')->with('success','ToDo Deleted');
+
     }
 }
